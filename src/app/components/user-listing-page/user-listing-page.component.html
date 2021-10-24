@@ -1,0 +1,41 @@
+﻿<h1>{{currentUser.role}}</h1>
+<p>This page can only be accessed by administrators.</p>
+<div>
+  All users from secure (admin only) api end point:
+  <ul *ngIf="currentUser.role == 'Admin'">
+    <div *ngFor="let user of users">
+      <li *ngIf="user.role == 'User'">
+        Username: {{user.username}} - Role: {{user.role}} <button type="submit" class="btn btn-warning mx-4" (click)="editUser(user.id)">Edit</button><button type="submit" class="btn btn-secondary" (click)="deleteUser(user.id)">Delete</button>
+      </li>
+    </div>
+  </ul>
+  <ul *ngIf="currentUser.role == 'SuperAdmin'">
+    <div *ngFor="let user of users">
+      <li *ngIf="user.role !== 'SuperAdmin'">
+        Username: {{user.username}} - Role: {{user.role}} <button type="submit" class="btn btn-warning mx-4" (click)="editUser(user.id)">Edit</button><button type="submit" class="btn btn-secondary" (click)="deleteUser(user.id)">Delete</button>
+      </li>
+    </div>
+  </ul>
+</div>
+
+<button (click)="isHidden=!isHidden" class="btn btn-success my-5">Add User</button>
+
+<form [class.hidden]="isHidden" [formGroup]="userForm">
+  <div class="mb-3">
+    <label for="exampleInputId1" class="form-label">Id</label>
+    <input type="id" formControlName="id" class="form-control" id="exampleInputId1" aria-describedby="idHelp">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputUsername1" class="form-label">Username</label>
+    <input type="username" formControlName="username" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" formControlName="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputRole1" class="form-label">Role</label>
+    <input type="role" formControlName="role" class="form-control" id="exampleInputRole1" aria-describedby="roleHelp">
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="addUser()">Submit</button>
+</form>
